@@ -12,14 +12,15 @@ use protocols::uart::UartConfig;
 /// you may want to do to `top` instead
 #[no_mangle(all)]
 entity tt_um_example(
-    clk: clock,
-    rst_n: bool,
-    ui_in: [bool; 8],
-    uo_out: inv& uint<8>,
-    uio_in: uint<8>,
-    uio_out: inv& [bool; 8],
-    uio_oe: inv& [bool; 8],
-    ena: bool,
+    ena: bool,      // always 1 when the design is powered, so you can ignore it
+    clk: clock,      // clock
+    rst_n: bool,     // reset_n - low to reset
+
+    ui_in: uint<8>,    // Dedicated inputs
+    uo_out: inv &[bool; 8],   // Dedicated outputs
+    uio_in: uint<8>,   // IOs: Input path
+    uio_out: inv &uint<8>,  // IOs: Output path
+    uio_oe: inv &uint<8>,   // IOs: Enable path (active high: 0=input, 1=output)
 ) {
     let rst = !rst_n;
 
